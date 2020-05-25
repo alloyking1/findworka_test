@@ -16,3 +16,18 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Books Routes
+|--------------------------------------------------------------------------
+|
+| A route group that contains all endpoint used in the test
+|
+*/
+
+Route::prefix('book')->group(function(){
+    Route::get('fetch', 'BookController@techBook');
+});
