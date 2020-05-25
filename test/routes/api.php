@@ -29,5 +29,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 
 Route::prefix('book')->group(function(){
-    Route::get('fetch', 'BookController@techBook');
+    Route::get('/fetch', 'BookController@fetchBook');
 });
