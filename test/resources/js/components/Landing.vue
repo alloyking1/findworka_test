@@ -5,25 +5,38 @@
                 <h1>All books</h1>
                 <hr>
                 <div>
-                    <h3>Title: {{this.books.name}}</h3>
-                    <!-- <h4 v-for='each in this.books.auth'>Author: {{each[0]}}</h4> -->
+                    <router-link to='/add/comment/'><h3>Title: {{this.books.name}}</h3></router-link>
+                    <h3>Title: {{this.books.isbn}}</h3>
                     <h6>Author: {{this.books.authors}}</h6>
                     <h6>Comment Counts: testing</h6>
 
+                    <!-- Button trigger modal -->
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Comments
+                    </button> -->
                 </div>
 
+                <hr> 
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Please comment</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveBook">Comment</button>
             </div>
         </div>
+        <!-- <comment :name="books.name" :author="books.authors"></comment> -->
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Comment from './Comment';
 
 export default {
     data(){
         return {
-            books:{}
+            books:{},
+            comment:''
         }
     },
 
@@ -34,15 +47,31 @@ export default {
     methods:{
         listBooks(){
             axios.get('/api/book/fetch')
-            // axios.get('https://anapioficeandfire.com/api/books/1')
             .then(res => {
-               console.log(res.data);
+            //    console.log(res.data);
                this.books = res.data;
             })
             .catch(err => {
                 console.log(err);
             })
+        }, 
+
+        saveBook(){
+            axios.post('api/book/save', {
+                name:this.books.name,
+                author:this.books.authors
+            })
+            .then(res=> {
+                console.log(res);
+            })
+            .catch(res => {
+                console.log(res);
+            })
         }
+    },
+
+    components:{
+        Comment
     }
 }
 </script>

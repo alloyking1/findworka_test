@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 
-class BookController extends Controller
+use Illuminate\Http\Request;
+use App\Book;
+
+class ApiBookController extends Controller
 {
     /**
      * Fetch list of Books from external API .
@@ -21,16 +23,31 @@ class BookController extends Controller
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
-        // 'X-RapidAPI-Host: kvstore.p.rapidapi.com',
-        // 'X-RapidAPI-Key: 7xxxxxxxxxxxxxxxxxxxxxxx',
         'Content-Type: application/json'
         ]);
 
         $response = curl_exec($curl);
         curl_close($curl);
 
-        // echo $response . PHP_EOL;
         return response($response);
         
+    }
+
+    /**
+     * save list of Books from external API to DB if not already existing .
+     * @param $title
+     * @return $reponse
+     */
+
+    protected function saveBook(Request $request){
+
+        $book= Book::where('name', $request->name)->get();
+        if($book->isEmpty()){
+            $saveBook = Book::create([
+                'name' => $request->name,
+                'author' => $request->author[0],
+            ]);
+            return response($saveBook);
+        }
     }
 }

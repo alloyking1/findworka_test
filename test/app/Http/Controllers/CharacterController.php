@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BooksController extends Controller
+class CharacterController extends Controller
 {
     //
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Books extends Model
+class Character extends Model
 {
     //
 }
