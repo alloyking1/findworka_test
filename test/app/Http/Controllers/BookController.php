@@ -3,50 +3,34 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Http;
-
 class BookController extends Controller
 {
     /**
-     * Fetch list of Books from external API.
+     * Fetch list of Books from external API .
      * @param none
-     * @return $result
+     * @return $reponse
      */
 
     public function fetchBook(){
 
-        // $client = new \GuzzleHttp\Client();
-        // $request = $client->get('https://anapioficeandfire.com/api/books/1');
-        // $response = $request->getBody()->getContents();
-        // return response()->json($response->json(), 200);
+        $url = 'https://anapioficeandfire.com/';
+        $collection_name = 'api/books/1';
+        $request_url = $url . '/' . $collection_name;
 
-        $url = 'https://anapioficeandfire.com/api/books/1';
+        $curl = curl_init($request_url);
 
-        
-        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        // 'X-RapidAPI-Host: kvstore.p.rapidapi.com',
+        // 'X-RapidAPI-Key: 7xxxxxxxxxxxxxxxxxxxxxxx',
+        'Content-Type: application/json'
+        ]);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_TIMEOUT => 30000,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                // Set Here Your Requesred Headers
-                'Content-Type: application/json',
-            ),
-        ));
         $response = curl_exec($curl);
-        $err = curl_error($curl);
         curl_close($curl);
 
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            print_r(json_decode($response));
-        }
-
-        return response()->json($response, 200);
+        // echo $response . PHP_EOL;
+        return response($response);
+        
     }
 }

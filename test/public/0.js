@@ -26,6 +26,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -40,7 +44,8 @@ __webpack_require__.r(__webpack_exports__);
     listBooks: function listBooks() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch').then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch') // axios.get('https://anapioficeandfire.com/api/books/1')
+      .then(function (res) {
         console.log(res.data);
         _this.books = res.data;
       })["catch"](function (err) {
@@ -75,7 +80,11 @@ var render = function() {
         _c("hr"),
         _vm._v(" "),
         _c("div", [
-          _vm._v("\n                " + _vm._s(this.books) + "\n            ")
+          _c("h3", [_vm._v("Title: " + _vm._s(this.books.name))]),
+          _vm._v(" "),
+          _c("h6", [_vm._v("Author: " + _vm._s(this.books.authors))]),
+          _vm._v(" "),
+          _c("h6", [_vm._v("Comment Counts: testing")])
         ])
       ])
     ])
