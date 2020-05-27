@@ -68,6 +68,9 @@ export default {
                     // fetch comments and count
                     this.bookId = res.data
                     this.commentCount(this.bookId.id)
+
+                    //save character listing
+                    this.charaterList(this.bookId.id, this.books.characters)
                 })
             })
             .catch(err => {
@@ -96,6 +99,16 @@ export default {
             .then(res=>{
                 this.count = res.data[1]
                 this.comments = res.data[0]
+            })
+        },
+
+        charaterList(postId, listing){
+            axios.post(`api/book/add/characterlist/${postId}`,{
+                character_url:listing,
+                book_id:postId
+            })
+            .then(res => {
+                console.log(res)
             })
         }
     },

@@ -76,7 +76,10 @@ __webpack_require__.r(__webpack_exports__);
           // fetch comments and count
           _this.bookId = res.data;
 
-          _this.commentCount(_this.bookId.id);
+          _this.commentCount(_this.bookId.id); //save character listing
+
+
+          _this.charaterList(_this.bookId.id, _this.books.characters);
         });
       })["catch"](function (err) {
         console.log(err);
@@ -100,6 +103,14 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/comment/fetch/count/".concat(postId)).then(function (res) {
         _this2.count = res.data[1];
         _this2.comments = res.data[0];
+      });
+    },
+    charaterList: function charaterList(postId, listing) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("api/book/add/characterlist/".concat(postId), {
+        character_url: listing,
+        book_id: postId
+      }).then(function (res) {
+        console.log(res);
       });
     }
   },
