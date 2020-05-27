@@ -98,7 +98,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/comment/fetch/count/".concat(postId)).then(function (res) {
-        console.log(res);
         _this2.count = res.data[1];
         _this2.comments = res.data[0];
       });
@@ -209,7 +208,7 @@ var render = function() {
             attrs: { type: "button" },
             on: {
               click: function($event) {
-                return _vm.saveComment(_vm.bookId)
+                return _vm.saveComment(_vm.bookId.id)
               }
             }
           },

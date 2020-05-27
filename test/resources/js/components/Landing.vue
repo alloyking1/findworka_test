@@ -29,7 +29,7 @@
                     <label for="exampleFormControlTextarea1 mt-5">Please comment</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
                 </div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveComment(bookId)">Comment</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveComment(bookId.id)">Comment</button>
             </div>
         </div>
     </div>
@@ -94,7 +94,6 @@ export default {
         commentCount(postId){
             axios.get(`api/book/comment/fetch/count/${postId}`)
             .then(res=>{
-                console.log(res)
                 this.count = res.data[1]
                 this.comments = res.data[0]
             })
