@@ -14,6 +14,10 @@
                 <hr> 
                 <div class="form-group">
                     <div class="row ">
+                        <div class="col-md-12" v-for="each in character" :key="character.index">
+                            {{each}}
+                        </div>
+
                         <div class="col-md-12">
 
                             <h3 class="text-center">All Comments</h3>
@@ -45,7 +49,8 @@ export default {
             comment:'',
             bookId:'',
             count:'',
-            comments:{}
+            comments:{},
+            character:{}
         }
     },
 
@@ -58,6 +63,10 @@ export default {
             axios.get('/api/book/fetch')
             .then(res => {
                this.books = res.data;
+
+                //fetch character list
+                this.fetchCharacterList(this.books.id)    
+
                // save book if not existing already
                 axios.post('api/book/save', {
                     name:this.books.name,
@@ -108,6 +117,14 @@ export default {
                 book_id:postId
             })
             .then(res => {
+                console.log(res)
+            })
+        },
+
+        fetchCharacterList(postId){
+            axios.get(`api/book/character/fetch/${postId}`)
+            .then(res=>{
+                this.character = res.data
                 console.log(res)
             })
         }

@@ -48,6 +48,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -56,7 +60,8 @@ __webpack_require__.r(__webpack_exports__);
       comment: '',
       bookId: '',
       count: '',
-      comments: {}
+      comments: {},
+      character: {}
     };
   },
   mounted: function mounted() {
@@ -67,7 +72,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch').then(function (res) {
-        _this.books = res.data; // save book if not existing already
+        _this.books = res.data; //fetch character list
+
+        _this.fetchCharacterList(_this.books.id); // save book if not existing already
+
 
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/book/save', {
           name: _this.books.name,
@@ -110,6 +118,14 @@ __webpack_require__.r(__webpack_exports__);
         character_url: listing,
         book_id: postId
       }).then(function (res) {
+        console.log(res);
+      });
+    },
+    fetchCharacterList: function fetchCharacterList(postId) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/character/fetch/".concat(postId)).then(function (res) {
+        _this3.character = res.data;
         console.log(res);
       });
     }
@@ -164,6 +180,20 @@ var render = function() {
             "div",
             { staticClass: "row " },
             [
+              _vm._l(_vm.character, function(each) {
+                return _c(
+                  "div",
+                  { key: _vm.character.index, staticClass: "col-md-12" },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(each) +
+                        "\n                    "
+                    )
+                  ]
+                )
+              }),
+              _vm._v(" "),
               _vm._m(0),
               _vm._v(" "),
               _vm._l(_vm.comments, function(comment) {

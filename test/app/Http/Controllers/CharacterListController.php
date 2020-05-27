@@ -30,4 +30,15 @@ class CharacterListController extends Controller
             'message' => 'comment added'
         ], 200);
     }
+
+     /**
+     * fetch character list 
+     * @param $_REQUEST
+     * @return $response
+     */
+
+    public function fetch(Request $request){
+        $characterList = Character::where('book_id',$request->id)->get();
+        return response()->json($characterList, 200);
+    }
 }

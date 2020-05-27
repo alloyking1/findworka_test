@@ -43,7 +43,7 @@ class CommentController extends Controller
     
     /**
      * fetch comment belonging to particular post 
-     * @param NULL
+     * @param $request
      * @return $response
      */
 
