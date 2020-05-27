@@ -48,6 +48,9 @@ class ApiBookController extends Controller
                 'author' => $request->author[0],
             ]);
             return response($saveBook);
+        }else{
+            $book= Book::where('name', $request->name)->first();
+            return response()->json($book, 200);
         }
     }
 }

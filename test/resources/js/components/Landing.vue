@@ -6,14 +6,10 @@
                 <hr>
                 <div>
                     <router-link to='/add/comment/'><h3>Title: {{this.books.name}}</h3></router-link>
-                    <h3>Title: {{this.books.isbn}}</h3>
+                    <h3>Comment count: {{this.count}}</h3>
                     <h6>Author: {{this.books.authors}}</h6>
                     <h6>Comment Counts: testing</h6>
 
-                    <!-- Button trigger modal -->
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Comments
-                    </button> -->
                 </div>
 
                 <hr> 
@@ -21,26 +17,26 @@
                     <label for="exampleFormControlTextarea1">Please comment</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
                 </div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveBook">Comment</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveComment(bookId)">Comment</button>
             </div>
         </div>
-        <!-- <comment :name="books.name" :author="books.authors"></comment> -->
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import Comment from './Comment';
 
 export default {
     data(){
         return {
             books:{},
-            comment:''
+            comment:'',
+            bookId:'',
+            count:''
         }
     },
 
-    created(){
+    mounted(){
         this.listBooks();
     },
 
@@ -48,24 +44,45 @@ export default {
         listBooks(){
             axios.get('/api/book/fetch')
             .then(res => {
-            //    console.log(res.data);
                this.books = res.data;
+               // save book if not existing already
+                axios.post('api/book/save', {
+                    name:this.books.name,
+                    author:this.books.authors
+                })
+                .then(res=> {
+
+                    // fetch comments and count
+                    this.bookId = res.data
+                    this.commentCount(this.bookId.id)
+                })
             })
             .catch(err => {
                 console.log(err);
             })
         }, 
 
-        saveBook(){
-            axios.post('api/book/save', {
-                name:this.books.name,
-                author:this.books.authors
-            })
-            .then(res=> {
-                console.log(res);
-            })
-            .catch(res => {
-                console.log(res);
+        saveComment(bookId){
+            if(this.comment === ""){
+                alert('Comment field cannot be empty')
+            }else{
+
+                axios.post(`api/book/add/comment/${bookId}`, {
+                    comment_body:this.comment,
+                    book_id:bookId
+                })
+                .then(res=> {
+                    alert('comment saved');
+                })   
+            }
+           
+        },
+
+        commentCount(postId){
+            axios.get(`api/book/comment/fetch/count/${postId}`)
+            .then(res=>{
+                console.log(res)
+                this.count = res.data[1]
             })
         }
     },

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\Book;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,4 +14,12 @@ class Comment extends Model
     protected $fillable =[
         'comment_body','book_id'
     ];
+
+    /**
+     * Relationship between comments and post
+     */
+
+     public function comments(){
+        return $this->belongsTo('App\ApiBookController', 'book_id');
+     }
 }

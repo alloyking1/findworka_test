@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Comment;
+use App\Book;
+
+
 
 class CommentController extends Controller
 {
@@ -14,8 +17,8 @@ class CommentController extends Controller
      * @return $response
      */
 
-    public function SaveComment(Request $response){
-        $validate = Validate::make($request->all(),[
+    public function SaveComment(Request $request){
+        $validate = Validator::make($request->all(),[
             'comment_body' => 'required|string|max:225'
         ]);
 
@@ -26,7 +29,7 @@ class CommentController extends Controller
         }
 
         $save = Comment::create([
-            'book_id' => $request->id,
+            'book_id' => $request->book_id,
             'comment_body' => $request->comment_body,
         ]);
 
@@ -40,12 +43,13 @@ class CommentController extends Controller
     
     /**
      * fetch comment belonging to particular post 
-     * @param $_REQUEST
+     * @param NULL
      * @return $response
      */
 
-    public function FetchComment(Request $request){
-        
+    public function CommentCounting(Request $request){
+        $comments = Comment::where('book_id',$request->id)->get();
+        $count = count($comments);
+        return response()->json([$comments, $count], 200);
     }
-
 }
