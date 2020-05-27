@@ -36,6 +36,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43,7 +55,8 @@ __webpack_require__.r(__webpack_exports__);
       books: {},
       comment: '',
       bookId: '',
-      count: ''
+      count: '',
+      comments: {}
     };
   },
   mounted: function mounted() {
@@ -87,6 +100,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/comment/fetch/count/".concat(postId)).then(function (res) {
         console.log(res);
         _this2.count = res.data[1];
+        _this2.comments = res.data[0];
       });
     }
   },
@@ -128,9 +142,7 @@ var render = function() {
             _vm._v(" "),
             _c("h3", [_vm._v("Comment count: " + _vm._s(this.count))]),
             _vm._v(" "),
-            _c("h6", [_vm._v("Author: " + _vm._s(this.books.authors))]),
-            _vm._v(" "),
-            _c("h6", [_vm._v("Comment Counts: testing")])
+            _c("h6", [_vm._v("Author: " + _vm._s(this.books.authors))])
           ],
           1
         ),
@@ -138,7 +150,32 @@ var render = function() {
         _c("hr"),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
+          _c(
+            "div",
+            { staticClass: "row " },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._l(_vm.comments, function(comment) {
+                return _c(
+                  "div",
+                  { key: _vm.comments.index, staticClass: "col-md-12" },
+                  [
+                    _c("div", { staticClass: "card" }, [
+                      _c("p", [_vm._v(_vm._s(comment.comment_body))]),
+                      _vm._v(" "),
+                      _c("small", [_vm._v(_vm._s(comment.created_at))])
+                    ]),
+                    _vm._v(" "),
+                    _c("br")
+                  ]
+                )
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "exampleFormControlTextarea1 mt-5" } }, [
             _vm._v("Please comment")
           ]),
           _vm._v(" "),
@@ -182,7 +219,16 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("h3", { staticClass: "text-center" }, [_vm._v("All Comments")])
+    ])
+  }
+]
 render._withStripped = true
 
 

@@ -8,13 +8,25 @@
                     <router-link to='/add/comment/'><h3>Title: {{this.books.name}}</h3></router-link>
                     <h3>Comment count: {{this.count}}</h3>
                     <h6>Author: {{this.books.authors}}</h6>
-                    <h6>Comment Counts: testing</h6>
 
                 </div>
 
                 <hr> 
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Please comment</label>
+                    <div class="row ">
+                        <div class="col-md-12">
+
+                            <h3 class="text-center">All Comments</h3>
+                        </div>
+                        <div class="col-md-12" v-for="comment in comments" :key="comments.index">
+                            <div class="card">
+                                <p>{{comment.comment_body}}</p>
+                                <small>{{comment.created_at}}</small>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <label for="exampleFormControlTextarea1 mt-5">Please comment</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveComment(bookId)">Comment</button>
@@ -32,7 +44,8 @@ export default {
             books:{},
             comment:'',
             bookId:'',
-            count:''
+            count:'',
+            comments:{}
         }
     },
 
@@ -83,6 +96,7 @@ export default {
             .then(res=>{
                 console.log(res)
                 this.count = res.data[1]
+                this.comments = res.data[0]
             })
         }
     },
