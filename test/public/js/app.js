@@ -40573,8 +40573,8 @@ var render = function() {
                 [
                   _c(
                     "router-link",
-                    { staticClass: "nav-link", attrs: { to: "#" } },
-                    [_vm._v("Rating")]
+                    { staticClass: "nav-link", attrs: { to: "/character" } },
+                    [_vm._v("character")]
                   )
                 ],
                 1
@@ -53007,10 +53007,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Landing */ "./resources/js/components/Landing.vue"));
     }
   }, {
-    path: "/add/comment/".concat(name),
-    name: 'comment',
+    path: "/character",
+    name: 'Character',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Comment */ "./resources/js/components/Comment.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Character */ "./resources/js/components/Character.vue"));
     }
   }]
 });

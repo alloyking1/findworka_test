@@ -12,7 +12,7 @@ class Comment extends Model
      */
 
     protected $fillable =[
-        'comment_body','book_id'
+        'comment_body','client_ip','book_id'
     ];
 
     /**

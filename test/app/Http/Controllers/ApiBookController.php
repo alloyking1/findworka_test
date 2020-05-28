@@ -16,7 +16,7 @@ class ApiBookController extends Controller
     public function fetchBook(){
 
         $url = 'https://anapioficeandfire.com/';
-        $collection_name = 'api/books/1';
+        $collection_name = 'api/books';
         $request_url = $url . '/' . $collection_name;
 
         $curl = curl_init($request_url);
@@ -35,22 +35,22 @@ class ApiBookController extends Controller
 
     /**
      * save list of Books from external API to DB if not already existing .
-     * @param $title
+     * @param $request
      * @return $reponse
      */
 
     protected function saveBook(Request $request){
 
-        $book= Book::where('name', $request->name)->get();
-        if($book->isEmpty()){
+        $find= Book::where('name', $request->bookName)->get();
+        if($find->isEmpty()){
             $saveBook = Book::create([
-                'name' => $request->name,
-                'author' => $request->author[0],
+                'name' => $request->bookName,
+                'author' => $request->bookAuthor[0],
             ]);
-            return response($saveBook);
+            return response()->json($saveBook, 200);
         }else{
-            $book= Book::where('name', $request->name)->first();
-            return response()->json($book, 200);
+            $fetchbook= Book::where('name', $request->bookName)->first();
+            return response()->json($fetchbook, 200);
         }
     }
 }

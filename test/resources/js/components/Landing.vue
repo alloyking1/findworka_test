@@ -1,13 +1,13 @@
 <template>
     <div class="container text-center mt-4">
+        <h1>All books</h1>
         <div class="card">
-            <div class="card-body">
-                <h1>All books</h1>
+            <div class="card-body" v-for="eachBook in books" :key="books.index">
                 <hr>
                 <div>
-                    <router-link to='/add/comment/'><h3>Title: {{this.books.name}}</h3></router-link>
-                    <h3>Comment count: {{this.count}}</h3>
-                    <h6>Author: {{this.books.authors}}</h6>
+                    <router-link to='/add/comment/'><h3>Title: {{eachBook.name}}</h3></router-link>
+                    <!-- <h3>Comment count: {{this.count}}</h3> -->
+                    <h6>Author: {{eachBook.authors}}</h6>
 
                 </div>
 
@@ -22,7 +22,8 @@
                         <div class="col-md-12" v-for="comment in comments" :key="comments.index">
                             <div class="card">
                                 <p>{{comment.comment_body}}</p>
-                                <small>{{comment.created_at}}</small>
+                                <small>Created at:{{comment.created_at}}</small>
+                                <small>poster Ip:{{comment.client_ip}}</small>
                             </div>
                             <br>
                         </div>
@@ -64,7 +65,8 @@ export default {
             bookId:'',
             count:'',
             comments:{},
-            character:{}
+            character:{},
+            readMoreActivated: false
         }
     },
 
@@ -73,34 +75,62 @@ export default {
     },
 
     methods:{
+
+        /**
+         * fetch books from endpont. 
+         * @param URL
+         * @return $response
+         */
+
         listBooks(){
             axios.get('/api/book/fetch')
             .then(res => {
                this.books = res.data;    
-
-               // save book if not existing already
-                axios.post('api/book/save', {
-                    name:this.books.name,
-                    author:this.books.authors
-                })
-                .then(res=> {
-
-                    // fetch comments and count
-                    this.bookId = res.data
-                    this.commentCount(this.bookId.id)
-
-                    //save character listing
-                    this.charaterList(this.bookId.id, this.books.characters)
-
-                    //fetch character list
-                    this.fetchCharacterList(this.bookId.id)
-                })
+                //call save book method
+                this.saveBook(this.books);
             })
             .catch(err => {
                 console.log(err);
             })
-        }, 
+        },
+        
+        
+        /**
+         * Save books if not saved already. 
+         * @param URL
+         * @return $response
+         */
+        
+        saveBook(books){
+            for (let index = 0; index < books.length; index++) {
+                const result = books[index];
 
+                // save in db
+                axios.post('api/book/save', {bookName:result.name, bookAuthor:result.authors})
+                .then(res=> {
+                    console.log(res)
+                })
+            }
+            // save book if not existing already
+            // axios.post('api/book/save', {bookVal:books})
+            // .then(res=> {
+            //     console.log(res.data)
+            //     // fetch comments and count
+            //     // this.commentCount(this.bookId.id)
+
+            //     // //save character listing
+            //     // this.charaterList(this.bookId.id, this.books.characters)
+
+            //     // //fetch character list
+            //     // this.fetchCharacterList(this.bookId.id)
+            // })
+        },
+
+        /**
+         * Save comment. 
+         * @param URL
+         * @return $response
+         */
         saveComment(bookId){
             if(this.comment === ""){
                 alert('Comment field cannot be empty')
@@ -117,6 +147,12 @@ export default {
            
         },
 
+
+        /**
+         * fetch comment and comment count. 
+         * @param URL
+         * @return $response
+         */
         commentCount(postId){
             axios.get(`api/book/comment/fetch/count/${postId}`)
             .then(res=>{
@@ -125,6 +161,12 @@ export default {
             })
         },
 
+
+        /**
+         * Save character list 
+         * @param URL
+         * @return $response
+         */
         charaterList(postId, listing){
             axios.post(`api/book/add/characterlist/${postId}`,{
                 character_url:listing,
@@ -135,12 +177,23 @@ export default {
             })
         },
 
+
+        /**
+         * fetch character list . 
+         * @param URL
+         * @return $response
+         */
         fetchCharacterList(postId){
             axios.get(`api/book/character/fetch/${postId}`)
             .then(res=>{
                 this.character = res.data
             })
-        }
+        },
+
+
+        // activateReadMore(){
+        //     this.readMoreActivated = true;
+        // },
     },
 
     components:{

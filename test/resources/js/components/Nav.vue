@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <router-link class="nav-link" to="#">Rating</router-link>
+                    <router-link class="nav-link" to="/character">character</router-link>
                 </li>
                 </ul>
             </div>

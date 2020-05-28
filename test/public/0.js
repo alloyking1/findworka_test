@@ -66,6 +66,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -75,38 +76,65 @@ __webpack_require__.r(__webpack_exports__);
       bookId: '',
       count: '',
       comments: {},
-      character: {}
+      character: {},
+      readMoreActivated: false
     };
   },
   mounted: function mounted() {
     this.listBooks();
   },
   methods: {
+    /**
+     * fetch books from endpont. 
+     * @param URL
+     * @return $response
+     */
     listBooks: function listBooks() {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch').then(function (res) {
-        _this.books = res.data; // save book if not existing already
+        _this.books = res.data; //call save book method
 
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/book/save', {
-          name: _this.books.name,
-          author: _this.books.authors
-        }).then(function (res) {
-          // fetch comments and count
-          _this.bookId = res.data;
-
-          _this.commentCount(_this.bookId.id); //save character listing
-
-
-          _this.charaterList(_this.bookId.id, _this.books.characters); //fetch character list
-
-
-          _this.fetchCharacterList(_this.bookId.id);
-        });
+        _this.saveBook(_this.books);
       })["catch"](function (err) {
         console.log(err);
       });
     },
+
+    /**
+     * Save books if not saved already. 
+     * @param URL
+     * @return $response
+     */
+    saveBook: function saveBook(books) {
+      for (var index = 0; index < books.length; index++) {
+        var result = books[index]; // save in db
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/book/save', {
+          bookName: result.name,
+          bookAuthor: result.authors
+        }).then(function (res) {
+          console.log(res);
+        });
+      } // save book if not existing already
+      // axios.post('api/book/save', {bookVal:books})
+      // .then(res=> {
+      //     console.log(res.data)
+      //     // fetch comments and count
+      //     // this.commentCount(this.bookId.id)
+      //     // //save character listing
+      //     // this.charaterList(this.bookId.id, this.books.characters)
+      //     // //fetch character list
+      //     // this.fetchCharacterList(this.bookId.id)
+      // })
+
+    },
+
+    /**
+     * Save comment. 
+     * @param URL
+     * @return $response
+     */
     saveComment: function saveComment(bookId) {
       if (this.comment === "") {
         alert('Comment field cannot be empty');
@@ -119,6 +147,12 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
+
+    /**
+     * fetch comment and comment count. 
+     * @param URL
+     * @return $response
+     */
     commentCount: function commentCount(postId) {
       var _this2 = this;
 
@@ -127,6 +161,12 @@ __webpack_require__.r(__webpack_exports__);
         _this2.comments = res.data[0];
       });
     },
+
+    /**
+     * Save character list 
+     * @param URL
+     * @return $response
+     */
     charaterList: function charaterList(postId, listing) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("api/book/add/characterlist/".concat(postId), {
         character_url: listing,
@@ -135,13 +175,22 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
       });
     },
+
+    /**
+     * fetch character list . 
+     * @param URL
+     * @return $response
+     */
     fetchCharacterList: function fetchCharacterList(postId) {
       var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/character/fetch/".concat(postId)).then(function (res) {
         _this3.character = res.data;
       });
-    }
+    } // activateReadMore(){
+    //     this.readMoreActivated = true;
+    // },
+
   },
   components: {
     Comment: Comment
@@ -166,96 +215,107 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container text-center mt-4" }, [
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-body" }, [
-        _c("h1", [_vm._v("All books")]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c(
-          "div",
-          [
-            _c("router-link", { attrs: { to: "/add/comment/" } }, [
-              _c("h3", [_vm._v("Title: " + _vm._s(this.books.name))])
-            ]),
-            _vm._v(" "),
-            _c("h3", [_vm._v("Comment count: " + _vm._s(this.count))]),
-            _vm._v(" "),
-            _c("h6", [_vm._v("Author: " + _vm._s(this.books.authors))])
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
+    _c("h1", [_vm._v("All books")]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card" },
+      _vm._l(_vm.books, function(eachBook) {
+        return _c("div", { key: _vm.books.index, staticClass: "card-body" }, [
+          _c("hr"),
+          _vm._v(" "),
           _c(
             "div",
-            { staticClass: "row " },
             [
-              _vm._m(0),
+              _c("router-link", { attrs: { to: "/add/comment/" } }, [
+                _c("h3", [_vm._v("Title: " + _vm._s(eachBook.name))])
+              ]),
               _vm._v(" "),
-              _vm._l(_vm.comments, function(comment) {
-                return _c(
-                  "div",
-                  { key: _vm.comments.index, staticClass: "col-md-12" },
-                  [
-                    _c("div", { staticClass: "card" }, [
-                      _c("p", [_vm._v(_vm._s(comment.comment_body))]),
-                      _vm._v(" "),
-                      _c("small", [_vm._v(_vm._s(comment.created_at))])
-                    ]),
-                    _vm._v(" "),
-                    _c("br")
-                  ]
-                )
-              })
+              _c("h6", [_vm._v("Author: " + _vm._s(eachBook.authors))])
             ],
-            2
+            1
           ),
           _vm._v(" "),
-          _c("label", { attrs: { for: "exampleFormControlTextarea1 mt-5" } }, [
-            _vm._v("Please comment")
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "div",
+              { staticClass: "row " },
+              [
+                _vm._m(0, true),
+                _vm._v(" "),
+                _vm._l(_vm.comments, function(comment) {
+                  return _c(
+                    "div",
+                    { key: _vm.comments.index, staticClass: "col-md-12" },
+                    [
+                      _c("div", { staticClass: "card" }, [
+                        _c("p", [_vm._v(_vm._s(comment.comment_body))]),
+                        _vm._v(" "),
+                        _c("small", [
+                          _vm._v("Created at:" + _vm._s(comment.created_at))
+                        ]),
+                        _vm._v(" "),
+                        _c("small", [
+                          _vm._v("poster Ip:" + _vm._s(comment.client_ip))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br")
+                    ]
+                  )
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "label",
+              { attrs: { for: "exampleFormControlTextarea1 mt-5" } },
+              [_vm._v("Please comment")]
+            ),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.comment,
+                  expression: "comment"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { id: "exampleFormControlTextarea1", rows: "3" },
+              domProps: { value: _vm.comment },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.comment = $event.target.value
+                }
+              }
+            })
           ]),
           _vm._v(" "),
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.comment,
-                expression: "comment"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { id: "exampleFormControlTextarea1", rows: "3" },
-            domProps: { value: _vm.comment },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg btn-block",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.saveComment(_vm.bookId.id)
                 }
-                _vm.comment = $event.target.value
               }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary btn-lg btn-block",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.saveComment(_vm.bookId.id)
-              }
-            }
-          },
-          [_vm._v("Comment")]
-        )
-      ])
-    ]),
+            },
+            [_vm._v("Comment")]
+          )
+        ])
+      }),
+      0
+    ),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),

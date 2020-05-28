@@ -18,18 +18,20 @@ class CommentController extends Controller
      */
 
     public function SaveComment(Request $request){
+
         $validate = Validator::make($request->all(),[
-            'comment_body' => 'required|string|max:225'
+            'comment_body' => 'required|string|max:500'
         ]);
 
         if($validate->fails()){
             return response()->json([
-                'message'=> 'All fields are required'
+                'message'=> 'Validation failed. comment is either not a string or too long. '
             ], 422);
         }
 
         $save = Comment::create([
             'book_id' => $request->book_id,
+            'client_ip' => $request->ip(),
             'comment_body' => $request->comment_body,
         ]);
 
@@ -48,7 +50,7 @@ class CommentController extends Controller
      */
 
     public function CommentCounting(Request $request){
-        $comments = Comment::where('book_id',$request->id)->get();
+        $comments = Comment::where('book_id',$request->id)->orderBy('id','DESC')->get();
         $count = count($comments);
         return response()->json([$comments, $count], 200);
     }

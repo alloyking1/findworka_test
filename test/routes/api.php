@@ -33,6 +33,6 @@ Route::prefix('book')->group(function(){
     Route::post('/save', 'ApiBookController@saveBook');
     Route::post('/add/comment/{id}', 'CommentController@SaveComment');
     Route::get('/comment/fetch/count/{id}', 'CommentController@CommentCounting');
-    Route::post('/add/characterlist/{id}', 'CharacterListController@Save');
+    Route::get('/fetch/characterlist/', 'CharacterListController@call');
     Route::get('/character/fetch/{id}', 'CharacterListController@fetch');
 });
