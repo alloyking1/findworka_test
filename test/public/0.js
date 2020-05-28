@@ -52,6 +52,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -72,10 +86,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch').then(function (res) {
-        _this.books = res.data; //fetch character list
-
-        _this.fetchCharacterList(_this.books.id); // save book if not existing already
-
+        _this.books = res.data; // save book if not existing already
 
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/book/save', {
           name: _this.books.name,
@@ -87,7 +98,10 @@ __webpack_require__.r(__webpack_exports__);
           _this.commentCount(_this.bookId.id); //save character listing
 
 
-          _this.charaterList(_this.bookId.id, _this.books.characters);
+          _this.charaterList(_this.bookId.id, _this.books.characters); //fetch character list
+
+
+          _this.fetchCharacterList(_this.bookId.id);
         });
       })["catch"](function (err) {
         console.log(err);
@@ -125,7 +139,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/character/fetch/".concat(postId)).then(function (res) {
-        _this3.character = res.data; // console.log(res.data)
+        _this3.character = res.data;
       });
     }
   },
@@ -179,20 +193,6 @@ var render = function() {
             "div",
             { staticClass: "row " },
             [
-              _vm._l(_vm.character, function(each) {
-                return _c(
-                  "div",
-                  { key: _vm.character.index, staticClass: "col-md-12" },
-                  [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(each) +
-                        "\n                    "
-                    )
-                  ]
-                )
-              }),
-              _vm._v(" "),
               _vm._m(0),
               _vm._v(" "),
               _vm._l(_vm.comments, function(comment) {
@@ -255,6 +255,36 @@ var render = function() {
           [_vm._v("Comment")]
         )
       ])
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "container" }, [
+          _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.character, function(each) {
+              return _c(
+                "div",
+                { key: _vm.character.index, staticClass: "col-md-12" },
+                [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(each.character_url) +
+                      "\n                        "
+                  ),
+                  _c("hr")
+                ]
+              )
+            }),
+            0
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -265,6 +295,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-12" }, [
       _c("h3", { staticClass: "text-center" }, [_vm._v("All Comments")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-head" }, [
+      _c("h3", [_vm._v("Character List")])
     ])
   }
 ]

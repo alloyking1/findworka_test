@@ -14,9 +14,6 @@
                 <hr> 
                 <div class="form-group">
                     <div class="row ">
-                        <div class="col-md-12" v-for="each in character" :key="character.index">
-                            {{each}}
-                        </div>
 
                         <div class="col-md-12">
 
@@ -34,6 +31,23 @@
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg btn-block" @click="saveComment(bookId.id)">Comment</button>
+            </div>
+        </div>
+        <br>
+
+        <div class="card">
+            <div class="card-head">
+                <h3>Character List</h3>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12" v-for="each in character" :key="character.index">
+                            {{each.character_url}}
+                            <hr>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -62,10 +76,7 @@ export default {
         listBooks(){
             axios.get('/api/book/fetch')
             .then(res => {
-               this.books = res.data;
-
-                //fetch character list
-                this.fetchCharacterList(this.books.id)    
+               this.books = res.data;    
 
                // save book if not existing already
                 axios.post('api/book/save', {
@@ -80,6 +91,9 @@ export default {
 
                     //save character listing
                     this.charaterList(this.bookId.id, this.books.characters)
+
+                    //fetch character list
+                    this.fetchCharacterList(this.bookId.id)
                 })
             })
             .catch(err => {
@@ -125,7 +139,6 @@ export default {
             axios.get(`api/book/character/fetch/${postId}`)
             .then(res=>{
                 this.character = res.data
-                // console.log(res.data)
             })
         }
     },

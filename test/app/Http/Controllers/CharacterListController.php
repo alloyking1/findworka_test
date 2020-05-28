@@ -14,26 +14,28 @@ class CharacterListController extends Controller
      */
 
     public function save(Request $request){
-        // $value = $request->character_url;
-
 
         $id = $request->book_id;
         $value = $request->character_url;
+        $ifExist = Character::where('book_id', $id)->get();
 
-        foreach($value as $content){
-            $insert = Character::create([
-                'book_id' => $id,
-                'character_url' => $content,
+        if($ifExist->isEmpty()){
+            foreach($value as $content){
+                $insert = Character::create([
+                    'book_id' => $id,
+                    'character_url' => $content,
+                ]);
+            }
+
+            return response()->json([
+                'data'=> $insert,
+                'message' => 'character list added'
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => 'data already exist'
             ]);
         }
-
-        return $insert;
-
-
-        return response()->json([
-            'data'=> $save,
-            'message' => 'comment added'
-        ], 200);
     }
 
      /**
@@ -43,7 +45,7 @@ class CharacterListController extends Controller
      */
 
     public function fetch(Request $request){
-        $characterList = Character::where('book_id',$request->id)->get();
+        $characterList = Character::where('book_id', $request->id)->get();
         return response()->json($characterList, 200);
     }
 }
