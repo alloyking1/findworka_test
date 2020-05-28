@@ -14,16 +14,21 @@ class CharacterListController extends Controller
      */
 
     public function save(Request $request){
-        return $request->all();
+        // $value = $request->character_url;
 
-        foreach ($request->character_url as $value) {
-            
-            $save = Character::create([
-                'book_id' => $request->id,
-                'character_url' => $request->character_url,
+
+        $id = $request->book_id;
+        $value = $request->character_url;
+
+        foreach($value as $content){
+            $insert = Character::create([
+                'book_id' => $id,
+                'character_url' => $content,
             ]);
-    
         }
+
+        return $insert;
+
 
         return response()->json([
             'data'=> $save,

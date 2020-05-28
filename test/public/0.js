@@ -125,8 +125,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/character/fetch/".concat(postId)).then(function (res) {
-        _this3.character = res.data;
-        console.log(res);
+        _this3.character = res.data; // console.log(res.data)
       });
     }
   },

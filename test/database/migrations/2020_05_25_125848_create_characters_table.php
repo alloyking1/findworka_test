@@ -16,7 +16,7 @@ class CreateCharactersTable extends Migration
         Schema::create('characters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('book_id');
-            $table->integer('character_url');
+            $table->string('character_url');
             $table->timestamps();
         });
     }

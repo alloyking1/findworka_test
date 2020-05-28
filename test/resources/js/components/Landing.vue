@@ -125,7 +125,7 @@ export default {
             axios.get(`api/book/character/fetch/${postId}`)
             .then(res=>{
                 this.character = res.data
-                console.log(res)
+                // console.log(res.data)
             })
         }
     },
