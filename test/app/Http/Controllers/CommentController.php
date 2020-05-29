@@ -42,16 +42,4 @@ class CommentController extends Controller
 
     }
 
-    
-    /**
-     * fetch comment belonging to particular post 
-     * @param $request
-     * @return $response
-     */
-
-    public function CommentCounting(Request $request){
-        $comments = Comment::where('book_id',$request->id)->orderBy('id','DESC')->get();
-        $count = count($comments);
-        return response()->json([$comments, $count], 200);
-    }
 }

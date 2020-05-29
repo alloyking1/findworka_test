@@ -7,6 +7,7 @@ let router = new VueRouter({
     routes:[
         {path:'/',  name:'Landing', component: () =>import('./components/Landing')},
         {path:`/character`,  name:'Character', component: () =>import('./components/Character')},
+        {path:`/post/comment/:id`,  name:'singlePost', component: () =>import('./components/Single')},
         
     ]
 });

@@ -29,44 +29,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -82,6 +44,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.listBooks();
+    this.allBooks();
   },
   methods: {
     /**
@@ -93,8 +56,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch').then(function (res) {
-        _this.books = res.data; //call save book method
-
+        //call save book method
         _this.saveBook(_this.books);
       })["catch"](function (err) {
         console.log(err);
@@ -113,84 +75,20 @@ __webpack_require__.r(__webpack_exports__);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/book/save', {
           bookName: result.name,
           bookAuthor: result.authors
-        }).then(function (res) {
-          console.log(res);
-        });
-      } // save book if not existing already
-      // axios.post('api/book/save', {bookVal:books})
-      // .then(res=> {
-      //     console.log(res.data)
-      //     // fetch comments and count
-      //     // this.commentCount(this.bookId.id)
-      //     // //save character listing
-      //     // this.charaterList(this.bookId.id, this.books.characters)
-      //     // //fetch character list
-      //     // this.fetchCharacterList(this.bookId.id)
-      // })
-
-    },
-
-    /**
-     * Save comment. 
-     * @param URL
-     * @return $response
-     */
-    saveComment: function saveComment(bookId) {
-      if (this.comment === "") {
-        alert('Comment field cannot be empty');
-      } else {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("api/book/add/comment/".concat(bookId), {
-          comment_body: this.comment,
-          book_id: bookId
-        }).then(function (res) {
-          alert('comment saved');
-        });
+        }).then(function (res) {});
       }
     },
 
     /**
-     * fetch comment and comment count. 
-     * @param URL
-     * @return $response
+     * get save books from db
      */
-    commentCount: function commentCount(postId) {
+    allBooks: function allBooks() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/comment/fetch/count/".concat(postId)).then(function (res) {
-        _this2.count = res.data[1];
-        _this2.comments = res.data[0];
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/book/get/all').then(function (res) {
+        _this2.books = res.data;
       });
-    },
-
-    /**
-     * Save character list 
-     * @param URL
-     * @return $response
-     */
-    charaterList: function charaterList(postId, listing) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("api/book/add/characterlist/".concat(postId), {
-        character_url: listing,
-        book_id: postId
-      }).then(function (res) {
-        console.log(res);
-      });
-    },
-
-    /**
-     * fetch character list . 
-     * @param URL
-     * @return $response
-     */
-    fetchCharacterList: function fetchCharacterList(postId) {
-      var _this3 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/character/fetch/".concat(postId)).then(function (res) {
-        _this3.character = res.data;
-      });
-    } // activateReadMore(){
-    //     this.readMoreActivated = true;
-    // },
-
+    }
   },
   components: {
     Comment: Comment
@@ -227,145 +125,25 @@ var render = function() {
           _c(
             "div",
             [
-              _c("router-link", { attrs: { to: "/add/comment/" } }, [
-                _c("h3", [_vm._v("Title: " + _vm._s(eachBook.name))])
-              ]),
+              _c(
+                "router-link",
+                { attrs: { to: { path: "/post/comment/" + eachBook.id } } },
+                [_c("h3", [_vm._v("Title: " + _vm._s(eachBook.name))])]
+              ),
               _vm._v(" "),
-              _c("h6", [_vm._v("Author: " + _vm._s(eachBook.authors))])
+              _c("h6", [_vm._v("Author: " + _vm._s(eachBook.author))])
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "div",
-              { staticClass: "row " },
-              [
-                _vm._m(0, true),
-                _vm._v(" "),
-                _vm._l(_vm.comments, function(comment) {
-                  return _c(
-                    "div",
-                    { key: _vm.comments.index, staticClass: "col-md-12" },
-                    [
-                      _c("div", { staticClass: "card" }, [
-                        _c("p", [_vm._v(_vm._s(comment.comment_body))]),
-                        _vm._v(" "),
-                        _c("small", [
-                          _vm._v("Created at:" + _vm._s(comment.created_at))
-                        ]),
-                        _vm._v(" "),
-                        _c("small", [
-                          _vm._v("poster Ip:" + _vm._s(comment.client_ip))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("br")
-                    ]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "label",
-              { attrs: { for: "exampleFormControlTextarea1 mt-5" } },
-              [_vm._v("Please comment")]
-            ),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.comment,
-                  expression: "comment"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { id: "exampleFormControlTextarea1", rows: "3" },
-              domProps: { value: _vm.comment },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.comment = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary btn-lg btn-block",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.saveComment(_vm.bookId.id)
-                }
-              }
-            },
-            [_vm._v("Comment")]
           )
         ])
       }),
       0
     ),
     _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("div", { staticClass: "card" }, [
-      _vm._m(1),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "container" }, [
-          _c(
-            "div",
-            { staticClass: "row" },
-            _vm._l(_vm.character, function(each) {
-              return _c(
-                "div",
-                { key: _vm.character.index, staticClass: "col-md-12" },
-                [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(each.character_url) +
-                      "\n                        "
-                  ),
-                  _c("hr")
-                ]
-              )
-            }),
-            0
-          )
-        ])
-      ])
-    ])
+    _c("br")
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("h3", { staticClass: "text-center" }, [_vm._v("All Comments")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-head" }, [
-      _c("h3", [_vm._v("Character List")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

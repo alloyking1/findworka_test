@@ -31,6 +31,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('book')->group(function(){
     Route::get('/fetch', 'ApiBookController@fetchBook');
     Route::post('/save', 'ApiBookController@saveBook');
+    Route::get('/get/all', 'ApiBookController@allBooks');
+    Route::get('/get/single/{id}', 'ApiBookController@singleBook');
     Route::post('/add/comment/{id}', 'CommentController@SaveComment');
     Route::get('/comment/fetch/count/{id}', 'CommentController@CommentCounting');
     Route::get('/fetch/characterlist/', 'CharacterListController@call');

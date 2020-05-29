@@ -53012,6 +53012,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: function component() {
       return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Character */ "./resources/js/components/Character.vue"));
     }
+  }, {
+    path: "/post/comment/:id",
+    name: 'singlePost',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Single */ "./resources/js/components/Single.vue"));
+    }
   }]
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);

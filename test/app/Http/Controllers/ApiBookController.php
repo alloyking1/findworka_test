@@ -53,4 +53,29 @@ class ApiBookController extends Controller
             return response()->json($fetchbook, 200);
         }
     }
+
+
+    /**
+     * Get list of books saved in DB
+     * @param NULL
+     * @return array of books
+     */
+
+     public function allBooks(){
+        $books= Book::all();
+        return response()->json($books, 200);
+     }
+
+
+     /**
+     * Get a single book and its comments
+     * @param NULL
+     * @return array of books
+     */
+    public function singleBook(Request $request){
+        $comments = Book::find($request->id)->BookComments;
+            
+        $post = Book::find($request->id);
+        return response()->json([$comments, $post], 200);
+    }
 }
