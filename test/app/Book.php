@@ -25,7 +25,7 @@ class Book extends Model
      */
 
     public function BookComments(){
-        return $this->hasMany('App\Comment', 'book_id');
+        return $this->hasMany('App\Comment', 'book_id')->latest();
     }
 }
 

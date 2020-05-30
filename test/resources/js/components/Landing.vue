@@ -1,6 +1,7 @@
 <template>
     <div class="container text-center mt-4">
         <h1>All books</h1>
+        <p>Click on book title to add comment</p>
         <div class="card">
             <div class="card-body" v-for="eachBook in books" :key="books.index">
                 <hr>

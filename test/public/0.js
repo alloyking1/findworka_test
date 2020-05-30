@@ -29,6 +29,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -114,6 +115,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container text-center mt-4" }, [
     _c("h1", [_vm._v("All books")]),
+    _vm._v(" "),
+    _c("p", [_vm._v("Click on book title to add comment")]),
     _vm._v(" "),
     _c(
       "div",
