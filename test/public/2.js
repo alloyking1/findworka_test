@@ -52,6 +52,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -74,7 +76,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sortRequest: function sortRequest() {
-      console.log('testing');
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/book/fetch/characterlist/sort/".concat(this.search)).then(function (res) {
+        _this2.allList = res.data;
+      })["catch"](function (res) {
+        console.log(res);
+      });
     }
   }
 });
@@ -100,7 +108,11 @@ var render = function() {
     _c("div", { staticClass: "row mb-5" }, [
       _c("div", { staticClass: "container" }, [
         _c("div", { staticClass: "card p-5 mt-5" }, [
-          _c("small", [_vm._v("Enter value to sort character list")]),
+          _c("h4", [_vm._v("Filter by name, age or gender")]),
+          _vm._v(" "),
+          _c("small", { staticClass: "pb-5" }, [
+            _vm._v("Enter filter value in this format name=charactername")
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-12" }, [
             _c("input", {
@@ -181,6 +193,11 @@ var render = function() {
                 _c("h5", [
                   _c("span", [_vm._v("playedBy:")]),
                   _vm._v(" " + _vm._s(eachList.playedBy))
+                ]),
+                _vm._v(" "),
+                _c("h5", [
+                  _c("span", [_vm._v("name:")]),
+                  _vm._v(" " + _vm._s(eachList.name))
                 ]),
                 _vm._v(" "),
                 _c("hr")

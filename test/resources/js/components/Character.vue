@@ -5,7 +5,8 @@
             <div class="container">
 
                 <div class="card p-5 mt-5">
-                    <small>Enter value to sort character list</small>
+                    <h4>Filter by name, age or gender</h4>
+                    <small class="pb-5">Enter filter value in this format name=charactername</small>
 
                     <div class="col-md-12">
 
@@ -28,6 +29,7 @@
                             <h5><span>books:</span> {{eachList.books}}</h5>
                             <h5><span>tvSeries:</span> {{eachList.tvSeries}}</h5>
                             <h5><span>playedBy:</span> {{eachList.playedBy}}</h5>
+                            <h5><span>name:</span> {{eachList.name}}</h5>
                             <!-- {{eachList}} -->
                             <hr>
                         </div>
@@ -66,7 +68,14 @@ export default {
         },
 
         sortRequest(){
-            console.log('testing')
+
+            axios.get(`api/book/fetch/characterlist/sort/${this.search}`)
+            .then(res=> {
+                this.allList=res.data
+            })
+            .catch(res => {
+                console.log(res);
+            })
         }
     }
 }
