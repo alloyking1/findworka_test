@@ -58,6 +58,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/book/fetch').then(function (res) {
         //call save book method
+        _this.books = res.data;
+
         _this.saveBook(_this.books);
       })["catch"](function (err) {
         console.log(err);

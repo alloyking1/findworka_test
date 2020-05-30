@@ -40,7 +40,6 @@ class ApiBookController extends Controller
      */
 
     protected function saveBook(Request $request){
-
         $find= Book::where('name', $request->bookName)->get();
         if($find->isEmpty()){
             $saveBook = Book::create([

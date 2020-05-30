@@ -50,6 +50,7 @@ export default {
             axios.get('/api/book/fetch')
             .then(res => {   
                 //call save book method
+                this.books= res.data;
                 this.saveBook(this.books);
             })
             .catch(err => {
@@ -65,6 +66,7 @@ export default {
          */
         
         saveBook(books){
+            
             for (let index = 0; index < books.length; index++) {
                 const result = books[index];
 
